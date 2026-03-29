@@ -45,6 +45,8 @@ equalTo.addEventListener("click", () => {
         } else{
             display.innerText = firstNum / secondNum;
         }
+    } else if(operation === "%"){
+        display.innerText = firstNum % secondNum;
     }
 });
 
