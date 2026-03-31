@@ -1,7 +1,9 @@
 let numbers = document.querySelectorAll(".numbers");
 let operators = document.querySelectorAll(".operators");
-let display = document.querySelector(".screen");
+let display = document.querySelector("#display");
 let equalTo = document.getElementById("equals");
+let backSpace = document.getElementById("backspace");
+
 
 let firstNum = 0;
 let secondNum = 0;
@@ -22,7 +24,7 @@ numbers.forEach((number) => {
 
 operators.forEach((operator) => {
     operator.addEventListener("click", () => {
-        if(operator.innerText === "="){
+        if(operator.id === "equals" || operator.id === "backspace"){ 
             return;
         }
         firstNum = Number(display.innerText);
@@ -30,6 +32,16 @@ operators.forEach((operator) => {
         display.innerText = "";
     });
 });
+
+backSpace.onclick = () => {
+    let current = display.innerText;
+
+    if(current.length === 1){
+        display.innerText = "0";
+    } else {
+        display.innerText = current.slice(0,-1);
+    }
+}
 
 equalTo.addEventListener("click", () => {
     secondNum = Number(display.innerText);
