@@ -9,7 +9,7 @@ let operation = "";
 
 numbers.forEach((number) => {
     number.addEventListener("click", () => {
-        appendValue(number);
+        appendValue(number.innerText);
     });
 });
 
@@ -30,9 +30,9 @@ equalTo.addEventListener("click", () => {
 
 function appendValue(number){
     if(display.innerText === "0"){
-        display.innerText = number.innerText;
+        display.innerText = number;
     } else{
-        display.innerText = display.innerText + number.innerText;
+        display.innerText = display.innerText + number;
     }
 }
 
@@ -85,3 +85,18 @@ function calculate(){
     firstNum = "";
     secondNum = "";
 }
+
+document.addEventListener("keydown", (e) => {
+    if("1234567890.".includes(e.key)){
+        appendValue(e.key);
+    } 
+    if("+-*/%".includes(e.key)){
+        chooseOperation("", e.key);
+    }
+    if(e.key === "=" || e.key === "Enter"){
+        calculate();
+    }
+    if(e.key === "Backspace"){
+        backSpace();
+    }
+});
