@@ -2,45 +2,57 @@ let numbers = document.querySelectorAll(".numbers");
 let operators = document.querySelectorAll(".operators");
 let display = document.querySelector("#display");
 let equalTo = document.getElementById("equals");
-let backSpace = document.getElementById("backspace");
-
 
 let firstNum = 0;
 let secondNum = 0;
 let operation = "";
 
-
 numbers.forEach((number) => {
     number.addEventListener("click", () => {
-    
-        if(display.innerText === "0"){
-            display.innerText = number.innerText;
-        } else{
-            display.innerText = display.innerText + number.innerText;
-        }
+        appendValue(number);
     });
 });
-
 
 operators.forEach((operator) => {
     operator.addEventListener("click", () => {
-        if(operator.id === "equals" || operator.id === "backspace"){ 
-            return;
-        }
-        if(operator.id === "clearAll"){
-            display.innerText = "0";
-            firstNum = 0;
-            secondNum = 0;
-            operation = "";
-            return;
-        }
-        firstNum = Number(display.innerText);
-        operation = operator.innerText;
-        display.innerText = "";
+        chooseOperation(operator.id, operator.innerText);
     });
 });
 
-backSpace.onclick = () => {
+document.getElementById("backspace").onclick = () => {
+    backSpace();
+}
+
+equalTo.addEventListener("click", () => {
+    calculate();
+});
+
+
+function appendValue(number){
+    if(display.innerText === "0"){
+        display.innerText = number.innerText;
+    } else{
+        display.innerText = display.innerText + number.innerText;
+    }
+}
+
+function chooseOperation(operator_id, operator_innerText){
+    if(operator_id === "equals" || operator_id === "backspace"){ 
+        return;
+    }
+    if(operator_id === "clearAll"){
+        display.innerText = "0";
+        firstNum = 0;
+        secondNum = 0;
+        operation = "";
+        return;
+    }
+    firstNum = Number(display.innerText);
+    operation = operator_innerText;
+    display.innerText = "";
+}
+
+function backSpace(){
     let current = display.innerText;
 
     if(current.length === 1){
@@ -50,7 +62,7 @@ backSpace.onclick = () => {
     }
 }
 
-equalTo.addEventListener("click", () => {
+function calculate(){
     secondNum = Number(display.innerText);
     if(operation === "+"){
         display.innerText = firstNum + secondNum;
@@ -60,6 +72,7 @@ equalTo.addEventListener("click", () => {
         display.innerText = firstNum * secondNum;
     } else if(operation === "/"){
         if(secondNum === 0){
+            display.innerText = "Denominator cant be zero";
             return;
         } else{
             display.innerText = firstNum / secondNum;
@@ -67,5 +80,8 @@ equalTo.addEventListener("click", () => {
     } else if(operation === "%"){
         display.innerText = firstNum % secondNum;
     }
-});
 
+    operation = "";
+    firstNum = "";
+    secondNum = "";
+}
